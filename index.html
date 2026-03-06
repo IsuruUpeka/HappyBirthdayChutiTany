@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Happy Birthday Chuti Tany 🎉</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<style>
+/* ════════════════════════════════════════════════
+   ROOT & RESET
+════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --rose:      #ff6eb4;
+  --rose-deep: #c4005a;
+  --gold:      #f5c842;
+  --ink:       #0a0118;
+  --glass:     rgba(255 255 255 / 0.10);
+  --glass-b:   rgba(255 255 255 / 0.18);
+  /* iPhone safe areas */
+  --st: env(safe-area-inset-top,    0px);
+  --sb: env(safe-area-inset-bottom, 0px);
+  --sl: env(safe-area-inset-left,   0px);
+  --sr: env(safe-area-inset-right,  0px);
+}
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  touch-action: pan-x pan-y;
+}
+
+/* ════════════════════════════════════════════════
+   SCREEN SYSTEM
+   Every screen starts hidden (opacity:0 + pointer-events:none)
+   .active makes it visible — NO other mechanism controls visibility
+════════════════════════════════════════════════ */
+.screen {
+  position: fixed;
+  inset: 0;
+  width: 100%; height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.65s ease;
+  padding-top:    calc(var(--st) + 24px);
+  padding-bottom: calc(var(--sb) + 24px);
+  padding-left:   calc(var(--sl) + 18px);
+  padding-right:  calc(var(--sr) + 18px);
+  overflow: hidden;
+}
+.screen.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Shared photo background */
+.bg-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  animation: bgDrift 60s ease-in-out infinite;
+}
+@keyframes bgDrift {
+  0%,100% { object-position: 0% 50%; }
+  50%      { object-position: 100% 50%; }
+}
+.bg-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(175deg, rgba(10,1,24,.32) 0%, rgba(10,1,24,.6) 100%);
+  z-index: -1;
+}
+
+/* ════════════════════════════════════════════════
+   SHARED BUTTONS
+════════════════════════════════════════════════ */
+.btn {
+  border: none; cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  letter-spacing: .04em;
+  transition: transform .18s, box-shadow .18s;
+  touch-action: manipulation;
+  -webkit-user-select: none; user-select: none;
+}
+.btn:active { transform: scale(.96) !important; }
+
+.btn-rose {
+  padding: clamp(14px,3.5vw,18px) clamp(38px,9vw,62px);
+  font-size: clamp(16px,4vw,19px);
+  border-radius: 60px;
+  background: linear-gradient(135deg, var(--rose) 0%, var(--rose-deep) 100%);
+  color: #fff;
+  box-shadow: 0 0 36px rgba(255,80,160,.55), 0 4px 14px rgba(0,0,0,.35);
+  min-height: 52px;
+}
+.btn-rose:hover { transform: scale(1.06); box-shadow: 0 0 60px rgba(255,80,160,.85); }
+
+.btn-ghost {
+  padding: 10px 24px;
+  font-size: clamp(12px,3vw,14px);
+  border-radius: 30px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.25);
+  color: rgba(255,255,255,.65);
+}
+.btn-ghost:hover { background: rgba(255,255,255,.1); color: #fff; }
+
+/* ════════════════════════════════════════════════
+   ① START SCREEN
+════════════════════════════════════════════════ */
+#s-start {
+  background: radial-gradient(ellipse at 50% 36%,
+    #2d0058 0%, #0d0120 55%, #000 100%);
+  gap: clamp(12px,3vw,20px);
+}
+
+/* Animated star field */
+.stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.stars::before, .stars::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+.stars::before {
+  background-image:
+    radial-gradient(rgba(255,255,255,.95) 1px, transparent 1px),
+    radial-gradient(rgba(255,220,255,.6)  1px, transparent 1px);
+  background-size: 130px 130px, 65px 65px;
+  background-position: 0 0, 34px 34px;
+  animation: starGlow 4.5s ease-in-out infinite;
+}
+.stars::after {
+  background-image:
+    radial-gradient(rgba(190,170,255,.65) 1px, transparent 1px),
+    radial-gradient(rgba(255,255,255,.45) 1px, transparent 1px);
+  background-size: 90px 90px, 42px 42px;
+  background-position: 18px 18px, 54px 54px;
+  animation: starGlow 4.5s ease-in-out infinite reverse;
+  animation-delay: -2.25s;
+}
+@keyframes starGlow {
+  0%,100% { opacity: .32; }
+  50%      { opacity: .92; }
+}
+
+/* Soft bokeh glows */
+.bokeh {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: floatY 7s ease-in-out infinite;
+}
+.bokeh:nth-child(2){width:200px;height:200px;background:radial-gradient(rgba(255,110,180,.22),transparent);top:8%;left:2%;}
+.bokeh:nth-child(3){width:140px;height:140px;background:radial-gradient(rgba(120,60,255,.18),transparent);top:58%;left:68%;animation-delay:-3s;}
+.bokeh:nth-child(4){width:220px;height:220px;background:radial-gradient(rgba(245,200,66,.1),transparent);top:25%;left:70%;animation-duration:10s;animation-delay:-5s;}
+.bokeh:nth-child(5){width:110px;height:110px;background:radial-gradient(rgba(255,110,180,.16),transparent);top:75%;left:12%;animation-delay:-1.5s;}
+@keyframes floatY {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-20px); }
+}
+
+.start-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(12px,3vw,18px);
+  text-align: center;
+  padding: 0 20px;
+  max-width: 500px;
+}
+.start-eyebrow {
+  font-size: clamp(11px,2.5vw,13px);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 300;
+  opacity: .82;
+}
+.start-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(2rem,8vw,4rem);
+  color: #fff;
+  line-height: 1.2;
+  text-shadow: 0 0 50px rgba(255,110,180,.7);
+  animation: titleBreath 3.5s ease-in-out infinite;
+}
+@keyframes titleBreath {
+  0%,100% { text-shadow: 0 0 30px rgba(255,110,180,.5); }
+  50%      { text-shadow: 0 0 70px rgba(255,110,180,.95), 0 0 120px rgba(180,60,255,.35); }
+}
+.start-sub {
+  font-size: clamp(13px,3.5vw,16px);
+  color: rgba(255,210,240,.72);
+  font-weight: 300;
+  letter-spacing: .06em;
+}
+
+/* ════════════════════════════════════════════════
+   ② DOVE SCREEN
+════════════════════════════════════════════════ */
+#s-doves { justify-content: flex-start; }
+
+/* Firefly texture */
+.fireflies {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(rgba(255,255,180,.9) 1px, transparent 1px),
+    radial-gradient(rgba(180,255,200,.55) 1px, transparent 1px);
+  background-size: 58px 58px, 34px 34px;
+  background-position: 0 0, 17px 17px;
+  animation: ffTwinkle 3.2s ease-in-out infinite;
+}
+@keyframes ffTwinkle {
+  0%,100% { opacity: .18; }
+  50%      { opacity: .48; }
+}
+
+/* Hint pill at top */
+.hint-pill {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  pointer-events: none;
+  max-width: calc(100vw - 36px);
+}
+.hint-top    { top: calc(var(--st) + 16px); }
+.hint-bottom { bottom: calc(var(--sb) + 52px); }
+.hint-pill span {
+  display: inline-block;
+  background: rgba(0,0,0,.48);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 40px;
+  padding: 8px 18px;
+  color: #fff;
+  font-size: clamp(12px,3vw,14px);
+  letter-spacing: .03em;
+  white-space: nowrap;
+}
+
+/* Progress at bottom */
+.progress-dock {
+  position: absolute;
+  bottom: calc(var(--sb) + 22px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(260px,70vw);
+  z-index: 20;
+  pointer-events: none;
+  text-align: center;
+}
+.p-track {
+  width: 100%; height: 7px;
+  background: rgba(255,255,255,.15);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.p-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--rose), var(--gold));
+  border-radius: 10px;
+  transition: width .55s cubic-bezier(.4,0,.2,1);
+}
+.p-label {
+  display: block;
+  margin-top: 6px;
+  color: rgba(255,255,255,.7);
+  font-size: 12px;
+}
+
+/* Animals */
+.animals {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.animal {
+  position: absolute;
+  font-size: clamp(26px,5.5vw,44px);
+  cursor: pointer;
+  pointer-events: auto;
+  filter: drop-shadow(0 3px 7px rgba(0,0,0,.5));
+  transition: transform .15s;
+  -webkit-user-select: none; user-select: none;
+  touch-action: manipulation;
+}
+.animal:active { transform: scale(1.25) !important; }
+.a-koala { bottom: calc(var(--sb) + 55px); left:  clamp(10px,3.5vw,50px); animation: floatY 4.2s ease-in-out infinite; }
+.a-deer  { bottom: calc(var(--sb) + 55px); right: clamp(10px,3.5vw,50px); animation: floatY 5.1s ease-in-out infinite; }
+.a-stitch { top: 20%; left: clamp(10px,3.5vw,50px); animation: floatY 3.8s ease-in-out infinite; animation-delay: -1.2s; }
+.a-pua   { top: 20%; right: clamp(10px,4vw,72px); animation: floatY 3.3s ease-in-out infinite; }
+
+/* Dove field */
+.dove-field {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+.dove {
+  position: absolute;
+  width: clamp(48px,11vw,68px);
+  height: clamp(32px,7.5vw,46px);
+  cursor: pointer;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 3px 10px rgba(180,140,255,.55));
+  transition: opacity .5s;
+  -webkit-user-select: none; user-select: none;
+  touch-action: manipulation;
+}
+.dove:active { filter: drop-shadow(0 3px 18px rgba(255,180,255,.9)) brightness(1.2); }
+
+/* SVG dove parts */
+.dove svg { width: 100%; height: 100%; overflow: visible; }
+
+/* Wing flap — each dove gets a random duration via inline style */
+.wing-top {
+  transform-origin: 50% 90%;
+  animation: flapTop var(--flap, 0.38s) ease-in-out infinite alternate;
+}
+.wing-bot {
+  transform-origin: 50% 10%;
+  animation: flapBot var(--flap, 0.38s) ease-in-out infinite alternate;
+}
+@keyframes flapTop {
+  0%   { transform: rotateX(0deg)   scaleY(1); }
+  100% { transform: rotateX(-55deg) scaleY(0.55); }
+}
+@keyframes flapBot {
+  0%   { transform: rotateX(0deg)  scaleY(1); }
+  100% { transform: rotateX(50deg) scaleY(0.55); }
+}
+
+/* Small heart above dove (replaces envelope) */
+.dove-heart {
+  position: absolute;
+  top: -10px; right: -6px;
+  font-size: clamp(10px,2.5vw,14px);
+  animation: heartBeat 1.4s ease-in-out infinite;
+  pointer-events: none;
+  line-height: 1;
+}
+@keyframes heartBeat {
+  0%,100% { transform: scale(1);    opacity: .9; }
+  30%      { transform: scale(1.35); opacity: 1; }
+  60%      { transform: scale(.9);   opacity: .8; }
+}
+
+/* Doves are moved by JS — no CSS animation needed for position */
+.dove.drifting { /* JS-controlled */ }
+.dove.opened {
+  opacity: .12 !important;
+  pointer-events: none !important;
+  transform: scale(.7) !important;
+}
+
+/* ════════════════════════════════════════════════
+   ③ CAKE SCREEN
+════════════════════════════════════════════════ */
+#s-cake {
+  gap: clamp(14px,3.5vw,26px);
+  background: radial-gradient(ellipse at 50% 95%, #1d0042 0%, var(--ink) 62%);
+}
+
+.cake-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1.55rem,5.5vw,2.6rem);
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 0 38px rgba(255,190,80,.6);
+  z-index: 1;
+}
+
+/* Stacked: flame → candle → cake */
+.cake-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+  gap: 0;
+}
+
+.flame-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.flame-body {
+  width: clamp(14px,3.6vw,20px);
+  height: clamp(22px,5.5vw,32px);
+  background: radial-gradient(ellipse at 50% 80%,
+    #ff3800 0%, #ff8c00 42%, #ffe000 72%, #fffde7 100%);
+  border-radius: 50% 50% 28% 28%;
+  animation: flicker .13s ease-in-out infinite alternate;
+  box-shadow: 0 0 14px 5px rgba(255,120,0,.5), 0 0 40px 10px rgba(255,180,0,.18);
+  transform-origin: bottom center;
+}
+@keyframes flicker {
+  0%   { transform: scaleY(1)    scaleX(1)    rotate(-1deg); }
+  100% { transform: scaleY(1.12) scaleX(0.9)  rotate(1deg); }
+}
+.flame-body.out {
+  animation: blowOut .45s ease forwards;
+}
+@keyframes blowOut {
+  0%   { transform: scale(1); opacity:1; }
+  40%  { transform: scale(2.2) skewX(18deg); opacity:.55; }
+  100% { transform: scale(0); opacity:0; }
+}
+
+.candle-stick {
+  width: clamp(10px,2.4vw,13px);
+  height: clamp(30px,7.5vw,42px);
+  background: linear-gradient(180deg, #fffde7 0%, #f5e030 55%, #e0c800 100%);
+  border-radius: 3px 3px 2px 2px;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(220,190,0,.3);
+}
+.candle-stick::before {
+  content: '';
+  position: absolute;
+  top: -7px; left: 50%;
+  transform: translateX(-50%);
+  width: 2px; height: 8px;
+  background: #2a1800;
+  border-radius: 1px;
+}
+.candle-stick::after {
+  content: '';
+  position: absolute;
+  inset: 0 3px;
+  background: linear-gradient(90deg, rgba(255,255,255,.4), transparent 55%);
+  border-radius: 2px;
+}
+
+.cake-body {
+  width: clamp(155px,40vw,235px);
+  height: clamp(90px,23vw,142px);
+  background: linear-gradient(172deg, #ff8fb0 0%, #ff4f82 54%, #d43065 100%);
+  border-radius: clamp(12px,3vw,20px);
+  position: relative;
+  box-shadow:
+    0 8px 28px rgba(255,60,120,.45),
+    0 2px 8px rgba(0,0,0,.32),
+    inset 0 1px 0 rgba(255,255,255,.22);
+  overflow: visible;
+}
+.cake-frosting {
+  position: absolute;
+  top: clamp(-10px,-2.5vw,-6px);
+  left: -3px; right: -3px;
+  height: clamp(14px,3.5vw,20px);
+  background: linear-gradient(180deg, #fffbf4 40%, #ffe8ee 100%);
+  border-radius: 50% 50% 0 0 / 70% 70% 0 0;
+  box-shadow: 0 -2px 8px rgba(255,200,210,.5);
+}
+.cake-band {
+  position: absolute;
+  top: 38%; left: 0; right: 0;
+  height: 22%;
+  background: rgba(255,255,255,.14);
+}
+.cake-decor {
+  position: absolute;
+  bottom: 16%; left: 0; right: 0;
+  text-align: center;
+  font-size: clamp(12px,3vw,17px);
+  letter-spacing: 5px;
+}
+
+/* Blow controls */
+.cake-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  z-index: 1;
+  width: 100%;
+  max-width: 300px;
+}
+#blowHint {
+  color: rgba(255,255,255,.88);
+  font-size: clamp(13px,3.5vw,15px);
+  text-align: center;
+  min-height: 22px;
+}
+.vol-track {
+  width: min(200px,56vw);
+  height: 9px;
+  background: rgba(255,255,255,.14);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.vol-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--rose), var(--gold));
+  border-radius: 10px;
+  transition: width .07s linear;
+}
+
+/* ════════════════════════════════════════════════
+   ④ GIFT SCREEN
+════════════════════════════════════════════════ */
+#s-gift {
+  gap: clamp(14px,3.8vw,22px);
+  background: radial-gradient(ellipse at 50% 55%, #1f0044 0%, var(--ink) 64%);
+}
+
+.gift-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1.35rem,5.5vw,2.3rem);
+  color: var(--gold);
+  text-align: center;
+  text-shadow: 0 0 30px rgba(245,200,66,.65);
+  animation: titleBreath 2.8s ease-in-out infinite;
+  z-index: 1;
+  padding: 0 12px;
+  line-height: 1.3;
+}
+
+.gift-box-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  z-index: 1;
+  transition: opacity .4s;
+  touch-action: manipulation;
+}
+#giftImg {
+  width: clamp(96px,26vw,148px);
+  filter: drop-shadow(0 10px 22px rgba(255,110,200,.55));
+  animation: giftFloat 2.2s ease-in-out infinite alternate;
+  transition: filter .25s;
+}
+#giftImg:hover { filter: drop-shadow(0 10px 30px rgba(245,200,66,.8)); }
+@keyframes giftFloat {
+  0%   { transform: translateY(0) rotate(-2deg); }
+  100% { transform: translateY(-22px) rotate(2deg); }
+}
+.gift-tap-hint {
+  color: rgba(255,255,255,.72);
+  font-size: clamp(12px,3.2vw,15px);
+  letter-spacing: .04em;
+}
+
+/* Gift reveal card */
+.gift-card {
+  display: none;
+  background: var(--glass);
+  border: 1px solid var(--glass-b);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-radius: clamp(18px,4vw,28px);
+  padding: clamp(22px,5vw,38px) clamp(24px,6vw,48px);
+  text-align: center;
+  max-width: min(340px,88vw);
+  z-index: 1;
+  animation: popIn .5s cubic-bezier(.175,.885,.32,1.275) forwards;
+}
+.gift-card h2 {
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--gold);
+  font-size: clamp(1.2rem,4.5vw,1.6rem);
+  margin-bottom: 12px;
+}
+.gift-card p {
+  color: rgba(255,255,255,.87);
+  font-size: clamp(13px,3.5vw,15px);
+  line-height: 1.75;
+  font-weight: 300;
+}
+.gift-icon { font-size: clamp(2rem,8vw,3rem); display: block; margin-bottom: 14px; }
+
+@keyframes popIn {
+  0%   { transform: scale(.65); opacity: 0; }
+  100% { transform: scale(1);   opacity: 1; }
+}
+
+/* ════════════════════════════════════════════════
+   LETTER MODAL
+════════════════════════════════════════════════ */
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 8000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease;
+}
+.modal-bg.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.letter-card {
+  background: linear-gradient(148deg, #fff9fb 0%, #fff0f5 100%);
+  border-radius: clamp(16px,4vw,26px);
+  padding: clamp(40px,9vw,58px) clamp(26px,6vw,46px) clamp(30px,7vw,42px);
+  width: min(360px,90vw);
+  text-align: center;
+  position: relative;
+  box-shadow: 0 28px 70px rgba(200,50,120,.28), 0 4px 18px rgba(0,0,0,.22);
+  animation: popIn .4s cubic-bezier(.175,.885,.32,1.275) forwards;
+}
+.ltr-close {
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 34px; height: 34px;
+  background: rgba(0,0,0,.07);
+  border: none;
+  border-radius: 50%;
+  font-size: 15px;
+  cursor: pointer;
+  color: #999;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s, color .2s;
+  touch-action: manipulation;
+}
+.ltr-close:hover { background: rgba(0,0,0,.14); color: #444; }
+.ltr-icon { font-size: clamp(2rem,8vw,3.2rem); display: block; margin-bottom: 18px; }
+#letterText {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1.05rem,4.5vw,1.3rem);
+  line-height: 1.85;
+  color: #4a2e3a;
+  margin-bottom: 28px;
+}
+.ltr-btn {
+  padding: 13px 36px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(135deg, var(--rose), var(--rose-deep));
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(14px,3.5vw,16px);
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(255,80,160,.4);
+  transition: transform .18s, box-shadow .18s;
+  touch-action: manipulation;
+  min-height: 46px;
+}
+.ltr-btn:hover  { transform: scale(1.05); box-shadow: 0 6px 26px rgba(255,80,160,.6); }
+.ltr-btn:active { transform: scale(.96); }
+
+/* ════════════════════════════════════════════════
+   TOAST
+════════════════════════════════════════════════ */
+#toast {
+  position: fixed;
+  bottom: calc(var(--sb) + 34px);
+  left: 50%;
+  transform: translateX(-50%) translateY(14px);
+  background: rgba(14,2,30,.93);
+  border: 1px solid rgba(255,255,255,.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #fff;
+  padding: 11px 26px;
+  border-radius: 32px;
+  font-size: clamp(12px,3.2vw,14px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s, transform .3s;
+  z-index: 9999;
+  box-shadow: 0 4px 24px rgba(0,0,0,.45);
+  white-space: nowrap;
+  max-width: calc(100vw - 36px);
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ════════════════════════════════════════════════
+   DESKTOP
+════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+  .a-koala { left: 60px; }
+  .a-deer  { right: 60px; }
+  .a-pua   { right: 100px; }
+}
+</style>
+</head>
+<body>
+
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ════════ ① START ════════ -->
+<div id="s-start" class="screen active">
+  <div class="stars"></div>
+  <div class="bokeh"></div>
+  <div class="bokeh"></div>
+  <div class="bokeh"></div>
+  <div class="bokeh"></div>
+
+  <div class="start-inner">
+    <p class="start-eyebrow">a little something for from POOPIEEE</p>
+    <h1 class="start-title">✨ A Magical Birthday Awaits for you TANY ✨</h1>
+    <p class="start-sub">Made with a whole lot of love 💖</p>
+    <button class="btn btn-rose" onclick="startExperience()">Open the Magic</button>
+  </div>
+</div>
+
+<!-- ════════ ② DOVES ════════ -->
+<div id="s-doves" class="screen">
+  <img src="background.png" class="bg-photo" alt="">
+  <div class="bg-veil"></div>
+  <div class="fireflies"></div>
+
+  <div class="animals">
+    <span class="animal a-koala" onclick="animalEgg('koala')">🐨</span>
+    <span class="animal a-deer"  onclick="animalEgg('deer')">🦌</span>
+    <span class="animal a-stitch" onclick="animalEgg('stitch')">💙</span>
+    <span class="animal a-pua"   onclick="animalEgg('pua')">🐷</span>
+  </div>
+
+  <div class="hint-pill hint-top">
+    <span id="hintText">✨ Tap each dove to reveal a message! ✨</span>
+  </div>
+
+  <div class="hint-pill hint-bottom">
+    <span id="hintText2">🐨🦌💙🐷 Click the easter eggs too!</span>
+  </div>
+
+  <div class="dove-field" id="doveField"></div>
+
+  <div class="progress-dock">
+    <div class="p-track"><div class="p-fill" id="pFill"></div></div>
+    <span class="p-label" id="pLabel">0 / 7 letters found</span>
+  </div>
+</div>
+
+<!-- ════════ ③ CAKE ════════ -->
+<div id="s-cake" class="screen">
+  <img src="background.png" class="bg-photo" alt="">
+  <div class="bg-veil"></div>
+
+  <h2 class="cake-heading">Make a Wish, Tany! 🌟</h2>
+
+  <div class="cake-stack">
+    <div class="flame-wrap">
+      <div class="flame-body" id="flame"></div>
+      <div class="candle-stick"></div>
+    </div>
+    <div class="cake-body">
+      <div class="cake-frosting"></div>
+      <div class="cake-band"></div>
+      <div class="cake-decor">🌸 🌸 🌸</div>
+    </div>
+  </div>
+
+  <div class="cake-controls">
+    <p id="blowHint">🎤 Blow into your microphone to blow out the candle!</p>
+    <div class="vol-track"><div class="vol-fill" id="volFill"></div></div>
+    <button class="btn btn-ghost" onclick="blowCandle()">Tap to blow it out 🕯️</button>
+  </div>
+</div>
+
+<!-- ════════ ④ GIFT ════════ -->
+<div id="s-gift" class="screen">
+  <p class="gift-headline">🎉 Happiest Birthday, Tany! 🎉</p>
+
+  <div class="gift-box-wrap" id="giftBoxWrap" onclick="openGift()">
+    <img src="gift-box.png" id="giftImg" alt="Gift">
+    <p class="gift-tap-hint">Tap to open your gift 💖</p>
+  </div>
+
+  <div class="gift-card" id="giftCard" style="position:relative;">
+    <button onclick="goHome()"
+      style="position:absolute;top:12px;right:12px;width:32px;height:32px;
+      border:none;border-radius:50%;background:rgba(0,0,0,0.12);
+      color:#999;font-size:15px;cursor:pointer;display:flex;
+      align-items:center;justify-content:center;">✕</button>
+    <span class="gift-icon">🎁</span>
+    <h2>Your Special Gift</h2>
+    <p>Something little is already on its way to you (I'm solly!)<br>
+       wrapped with so much love, just for you Tany. 💖<br><br>
+       Watch out for it! 🌸</p>
+  </div>
+</div>
+
+<!-- ════════ LETTER MODAL ════════ -->
+<div class="modal-bg" id="letterModal" onclick="onModalBg(event)">
+  <div class="letter-card" id="letterCard">
+    <button class="ltr-close" onclick="closeEnvelope()">✕</button>
+    <span class="ltr-icon" id="ltrIcon">💌</span>
+    <p id="letterText"></p>
+    <button class="ltr-btn" onclick="closeEnvelope()">Close 💫</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ══════════════════════════════════════════════
+   STATE — one place, never duplicated
+══════════════════════════════════════════════ */
+const TOTAL       = 7;
+let revealed      = 0;
+let pendingId     = null;
+let micOn         = false;
+let rafId         = null;
+const seen        = new Set();
+
+const msgs = {
+  1: "You're always in my prayers. Always! 💙",
+  2: "Your smile makes the world brighter. Keep smiling! ✨",
+  3: "Never forget how special you are. Please remember that! 🌸",
+  4: "Today we celebrate YOU. It's 29! 🎉",
+  5: "March 7th... isn't that special? 🎂",
+  6: "I have high expectations for you, Tany. Stay strong! 💖",
+  7: "A year of independence and growth begins now! 🥳"
+};
+
+const icons = ["💌", "💝", "🌸", "🎊", "🎂", "💖", "🥂"];
+
+/* ══════════════════════════════════════════════
+   SCREEN MANAGER
+   This is the ONLY way screens are shown/hidden.
+   All screens start hidden; only #s-start has .active in HTML.
+══════════════════════════════════════════════ */
+function go(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  requestAnimationFrame(() => {
+    const el = document.getElementById('s-' + id);
+    if (el) el.classList.add('active');
+  });
+}
+
+/* ══════════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════════ */
+let _tt = null;
+function toast(msg, ms = 2700) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(_tt);
+  _tt = setTimeout(() => t.classList.remove('show'), ms);
+}
+
+/* ══════════════════════════════════════════════
+   ① START — only change: music fix
+══════════════════════════════════════════════ */
+function startExperience() {
+  const m = document.getElementById('music');
+  m.volume = 0.42;
+  m.load();
+  m.play().then(() => {
+    const mb = document.getElementById('muteBtn');
+    if (mb) mb.remove();
+  }).catch(() => {
+    showMuteBtn();
+  });
+  confetti({ particleCount:90, spread:85, origin:{y:.55} });
+  go('doves');
+  buildDoves();
+}
+
+function showMuteBtn() {
+  if (document.getElementById('muteBtn')) return;
+  const btn = document.createElement('button');
+  btn.id = 'muteBtn';
+  btn.textContent = '🎵 Tap to play music';
+  btn.style.cssText = `
+    position:fixed; bottom:calc(env(safe-area-inset-bottom,0px) + 80px);
+    left:50%; transform:translateX(-50%);
+    z-index:9998; border:none; cursor:pointer;
+    padding:10px 22px; border-radius:30px;
+    background:rgba(255,110,180,.85); backdrop-filter:blur(10px);
+    color:white; font-size:14px; font-family:'DM Sans',sans-serif;
+    box-shadow:0 4px 20px rgba(255,80,160,.5);
+  `;
+  btn.onclick = () => {
+    document.getElementById('music').play()
+      .then(() => btn.remove())
+      .catch(() => { btn.textContent = '⚠️ Music file not found'; setTimeout(() => btn.remove(), 3000); });
+  };
+  document.body.appendChild(btn);
+}
+
+/* ══════════════════════════════════════════════
+   SVG DOVE — inline, pure CSS wing flap
+══════════════════════════════════════════════ */
+function makeDoveSVG() {
+  // Each dove gets a slightly different flap speed for variety
+  const flap = (0.28 + Math.random() * 0.22).toFixed(2) + 's';
+  return `
+  <span class="dove-heart">💌</span>
+  <svg viewBox="0 0 80 50" xmlns="http://www.w3.org/2000/svg"
+       style="--flap:${flap}" aria-hidden="true">
+
+    <!-- Body -->
+    <ellipse cx="42" cy="28" rx="18" ry="9"
+      fill="white" opacity="0.95"/>
+
+    <!-- Tail feathers -->
+    <ellipse cx="22" cy="30" rx="10" ry="5"
+      fill="white" opacity="0.85"
+      transform="rotate(-18 22 30)"/>
+    <ellipse cx="19" cy="33" rx="9" ry="4"
+      fill="rgba(220,210,255,0.7)"
+      transform="rotate(-28 19 33)"/>
+
+    <!-- Head -->
+    <circle cx="60" cy="23" r="8"
+      fill="white" opacity="0.95"/>
+
+    <!-- Beak -->
+    <polygon points="68,22 76,24 68,26"
+      fill="#f5c842" opacity="0.9"/>
+
+    <!-- Eye -->
+    <circle cx="63" cy="21" r="2" fill="#1a0040"/>
+    <circle cx="64" cy="20.3" r="0.7" fill="white"/>
+
+    <!-- TOP wing (flaps up) -->
+    <g class="wing-top">
+      <ellipse cx="42" cy="20" rx="22" ry="9"
+        fill="rgba(255,255,255,0.92)"
+        transform="rotate(-8 42 20)"/>
+      <ellipse cx="38" cy="17" rx="16" ry="5"
+        fill="rgba(220,215,255,0.6)"
+        transform="rotate(-14 38 17)"/>
+    </g>
+
+    <!-- BOTTOM wing (flaps down) -->
+    <g class="wing-bot">
+      <ellipse cx="42" cy="36" rx="20" ry="7"
+        fill="rgba(255,255,255,0.75)"
+        transform="rotate(8 42 36)"/>
+    </g>
+
+    <!-- Wing highlight shimmer -->
+    <ellipse cx="46" cy="22" rx="8" ry="3"
+      fill="rgba(255,255,255,0.35)"
+      transform="rotate(-10 46 22)"
+      pointer-events="none"/>
+  </svg>`;
+}
+
+/* ══════════════════════════════════════════════
+   ② DOVES — wandering flight engine
+══════════════════════════════════════════════ */
+let doveAnimId = null;
+const doveState = []; // { el, x, y, vx, vy, wobble, wobbleSpeed }
+
+function buildDoves() {
+  const field = document.getElementById('doveField');
+  field.innerHTML = '';
+  doveState.length = 0;
+  cancelAnimationFrame(doveAnimId);
+
+  for (let i = 1; i <= TOTAL; i++) {
+    const d = document.createElement('div');
+    d.className = 'dove drifting';
+    d.dataset.id = i;
+    d.innerHTML = makeDoveSVG();
+    d.addEventListener('click', () => tapDove(i, d));
+    field.appendChild(d);
+
+    // Random start position (keep away from very edges)
+    const x = 8 + Math.random() * 78;  // % of screen width
+    const y = 12 + Math.random() * 65; // % of screen height
+
+    // Random velocity — mix of fast and slower doves
+    const speed = 0.035 + Math.random() * 0.055;
+    const angle = Math.random() * Math.PI * 2;
+
+    doveState.push({
+      el: d,
+      x, y,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      wobble: Math.random() * Math.PI * 2,
+      wobbleSpeed: 0.018 + Math.random() * 0.022,
+      turnTimer: 0,
+      turnInterval: 90 + Math.floor(Math.random() * 120) // frames between direction nudges
+    });
+  }
+
+  flyDoves();
+}
+
+function flyDoves() {
+  const W = 100; // percent space
+  const H = 100;
+  const doveW = 8;  // approx dove width in %
+  const doveH = 11; // approx dove height in %
+
+  for (const s of doveState) {
+    if (s.el.classList.contains('opened')) continue;
+
+    // Wobble adds organic side-to-side motion
+    s.wobble += s.wobbleSpeed;
+    s.x += s.vx + Math.sin(s.wobble * 0.7) * 0.018;
+    s.y += s.vy + Math.cos(s.wobble * 1.1) * 0.012;
+
+    // Random direction nudge — keeps them unpredictable
+    s.turnTimer++;
+    if (s.turnTimer >= s.turnInterval) {
+      s.turnTimer = 0;
+      s.turnInterval = 90 + Math.floor(Math.random() * 130);
+      const nudge = (Math.random() - 0.5) * 0.06;
+      s.vx += nudge;
+      s.vy += (Math.random() - 0.5) * 0.04;
+      // Keep speed in range
+      const spd = Math.hypot(s.vx, s.vy);
+      const target = 0.04 + Math.random() * 0.05;
+      s.vx = (s.vx / spd) * target;
+      s.vy = (s.vy / spd) * target;
+    }
+
+    // Bounce off edges
+    if (s.x < 2)          { s.x = 2;          s.vx =  Math.abs(s.vx); }
+    if (s.x > W - doveW)  { s.x = W - doveW;  s.vx = -Math.abs(s.vx); }
+    if (s.y < 8)          { s.y = 8;          s.vy =  Math.abs(s.vy); }
+    if (s.y > H - doveH)  { s.y = H - doveH;  s.vy = -Math.abs(s.vy); }
+
+    // Face direction of travel + tilt into flight path
+    const tilt  = s.vy * 90;  // pitch up/down
+    const flipX = s.vx < 0 ? -1 : 1; // face left or right
+    const clampedTilt = Math.max(-20, Math.min(20, tilt));
+    s.el.style.left      = s.x + '%';
+    s.el.style.top       = s.y + '%';
+    s.el.style.transform = `scaleX(${flipX}) rotate(${clampedTilt}deg)`;
+  }
+
+  doveAnimId = requestAnimationFrame(flyDoves);
+}
+
+function tapDove(id, el) {
+  if (seen.has(id)) { toast("You already read this one! 💫"); return; }
+  pendingId = id;
+  document.getElementById('ltrIcon').textContent  = icons[id-1];
+  document.getElementById('letterText').textContent = msgs[id];
+  document.getElementById('letterModal').classList.add('open');
+  confetti({ particleCount:55, spread:95, origin:{y:.5} });
+}
+
+function onModalBg(e) {
+  if (e.target === document.getElementById('letterModal')) closeEnvelope();
+}
+
+function closeEnvelope() {
+  document.getElementById('letterModal').classList.remove('open');
+
+  if (pendingId !== null && !seen.has(pendingId)) {
+    seen.add(pendingId);
+    revealed++;
+
+    // Dim used dove
+    const dEl = document.querySelector(`.dove[data-id="${pendingId}"]`);
+    if (dEl) dEl.classList.add('opened');
+
+    // Progress bar
+    document.getElementById('pFill').style.width = (revealed/TOTAL*100) + '%';
+    document.getElementById('pLabel').textContent = `${revealed} / ${TOTAL} letters found`;
+
+    if (revealed >= TOTAL) {
+      document.getElementById('hintText').textContent = "🎂 All found! The cake is ready…";
+      setTimeout(() => {
+        confetti({ particleCount:160, spread:130, origin:{y:.5} });
+        go('cake');
+        startMic();
+      }, 900);
+    } else {
+      const rem = TOTAL - revealed;
+      toast(`${rem} letter${rem > 1 ? 's' : ''} still waiting for you 🕊️`);
+    }
+  }
+  pendingId = null;
+}
+
+/* ══════════════════════════════════════════════
+   ③ CAKE
+══════════════════════════════════════════════ */
+function startMic() {
+  if (micOn) return;
+  if (!navigator.mediaDevices?.getUserMedia) {
+    document.getElementById('blowHint').textContent = "No mic — tap the button below! 🕯️";
+    return;
+  }
+  navigator.mediaDevices.getUserMedia({ audio:true })
+    .then(stream => {
+      micOn = true;
+      const ctx = new AudioContext();
+      const src = ctx.createMediaStreamSource(stream);
+      const an  = ctx.createAnalyser();
+      an.fftSize = 256;
+      src.connect(an);
+      const buf = new Uint8Array(an.frequencyBinCount);
+
+      function tick() {
+        if (!micOn) return;
+        an.getByteFrequencyData(buf);
+        const vol = buf.reduce((a,b)=>a+b,0) / buf.length;
+        document.getElementById('volFill').style.width =
+          Math.min(vol/85*100, 100) + '%';
+
+        if (vol > 68) {
+          micOn = false;
+          stream.getTracks().forEach(t => t.stop());
+          cancelAnimationFrame(rafId);
+          blowCandle();
+          return;
+        }
+        document.getElementById('blowHint').textContent =
+          vol > 22 ? "🎤 Keep blowing!" : "🎤 Blow into your microphone!";
+        rafId = requestAnimationFrame(tick);
+      }
+      tick();
+    })
+    .catch(() => {
+      document.getElementById('blowHint').textContent = "Mic blocked — tap the button 🕯️";
+    });
+}
+
+function blowCandle() {
+  micOn = false;
+  cancelAnimationFrame(rafId);
+
+  document.getElementById('flame').classList.add('out');
+  document.getElementById('blowHint').textContent = "🎉 Wish made! Your gift awaits…";
+  document.getElementById('volFill').style.width = '100%';
+
+  confetti({ particleCount:200, spread:160, origin:{y:.55} });
+  setTimeout(() => confetti({ particleCount:90, spread:100, angle:60,  origin:{x:0} }), 320);
+  setTimeout(() => confetti({ particleCount:90, spread:100, angle:120, origin:{x:1} }), 580);
+  setTimeout(() => go('gift'), 2100);
+}
+
+/* ══════════════════════════════════════════════
+   ④ GIFT
+══════════════════════════════════════════════ */
+function openGift() {
+  const card = document.getElementById('giftCard');
+  if (card.style.display === 'block') return;
+  document.getElementById('giftBoxWrap').style.cssText = 'opacity:.15; pointer-events:none; transition:opacity .4s;';
+  card.style.display = 'block';
+  confetti({ particleCount:150, spread:155, origin:{y:.5} });
+  setTimeout(() => confetti({ particleCount:80, spread:100, angle:60,  origin:{x:0} }), 380);
+  setTimeout(() => confetti({ particleCount:80, spread:100, angle:120, origin:{x:1} }), 640);
+}
+
+/* ══════════════════════════════════════════════
+   ANIMAL EGGS
+══════════════════════════════════════════════ */
+const eggMsgs   = { koala:"🐨 Hah it's isu, and sends the warmest hug! 🤗", deer:"🦌 aha it's you DEER TANY! 🌿", stitch:"💙 It's your Stitch, says hi!", pua:"🐷 PIG? PUA? IT'S YOU TANYYY! 🌺" };
+const eggColors = { koala:['#C0A882','#8B6914'], deer:['#8FBC8F','#228B22'], stitch:['#1E90FF','#4169E1'], pua:['#FFB6C1','#FF1493'] };
+function animalEgg(a) {
+  toast(eggMsgs[a] || "🎉");
+  confetti({ particleCount:65, spread:110, colors:eggColors[a], origin:{y:.65} });
+}
+
+function goHome() {
+  revealed  = 0;
+  pendingId = null;
+  micOn     = false;
+  cancelAnimationFrame(rafId);
+  cancelAnimationFrame(doveAnimId);
+  seen.clear();
+
+  document.getElementById('pFill').style.width    = '0%';
+  document.getElementById('pLabel').textContent   = '0 / 7 letters found';
+  document.getElementById('hintText').textContent = '✨ Tap each dove to reveal a message! ✨';
+  document.getElementById('flame').classList.remove('out');
+  document.getElementById('volFill').style.width  = '0%';
+  document.getElementById('blowHint').textContent = '🎤 Blow into your microphone to blow out the candle!';
+  document.getElementById('giftCard').style.display = 'none';
+  document.getElementById('giftBoxWrap').style.cssText = '';
+  document.getElementById('music').pause();
+  document.getElementById('music').currentTime = 0;
+
+  go('start');
+}
+</script>
+</body>
+</html>
